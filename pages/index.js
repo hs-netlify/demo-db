@@ -1,15 +1,15 @@
-import Head from "next/head";
 import React, { useState } from "react";
+import Head from "next/head";
 
+//Components
 import Grid from "../components/Grid";
 import DemoCard from "../components/DemoCard";
-
 import SearchBar from "../components/SearchBar";
-import { DemoDetail } from "../components/DemoDetail";
+import DemoDetail from "../components/DemoDetail";
 
 export const getStaticProps = async () => {
   const sites = await (
-    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/sites?page=1`)
+    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/sites`)
   ).json();
 
   return {
@@ -32,7 +32,7 @@ const Home = ({ sites }) => {
         {sites.map((site) => {
           if (site.name.includes(search)) {
             return (
-              <DemoCard key={site.id}>
+              <DemoCard key={site.id} siteId={site.id}>
                 <DemoDetail demo={site} />
               </DemoCard>
             );

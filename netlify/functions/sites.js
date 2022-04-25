@@ -1,18 +1,23 @@
-import fetch from "node-fetch";
+import { connectToDatabase } from "../../utils";
 
-exports.handler = async (event, context) => {
-  const { page } = event.queryStringParameters;
-  const sites = await (
-    await fetch(
-      `${process.env.NETLIFY_API}/moneytronic/sites${
-        page ? "?page=1&per_page=12" : ""
-      }`,
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.NETLIFY_TOKEN}`,
-        },
-      }
-    )
-  ).json();
-  return { body: JSON.stringify(sites), statusCode: 200 };
+const getSites = async (db) => {
+  try {
+    const sites = await db
+      .collection("sites")
+      .find({})
+      .sort({ "published_deploy.published_at": -1 })
+      .toArray();
+
+    return { statusCode: 200, body: JSON.stringify(sites) };
+  } catch (error) {
+    console.log(error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: "Unable to fetch sites" }),
+    };
+  }
+};
+exports.handler = async () => {
+  const db = await connectToDatabase();
+  return getSites(db);
 };

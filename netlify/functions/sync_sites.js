@@ -1,4 +1,3 @@
-const MongoClient = require("mongodb").MongoClient;
 import fetch from "node-fetch";
 
 import { connectToDatabase } from "../../utils";
@@ -16,10 +15,13 @@ const syncDB = async (db) => {
         { new: true, upsert: true }
       );
     });
-    return { statusCode: 200, body: "Success" };
+    return { statusCode: 200, body: JSON.stringify({ msg: "Success" }) };
   } catch (error) {
     console.log("Unable to sync sites ", error);
-    return { statusCode: 500, body: "Unable to sync sites" };
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: "Unable to sync sites" }),
+    };
   }
 };
 

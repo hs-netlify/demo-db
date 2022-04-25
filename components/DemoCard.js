@@ -1,10 +1,13 @@
 import React from "react";
+import Link from "next/link";
 
-const DemoCard = ({ children }) => (
+const DemoCard = ({ children, siteId }) => (
   <div className="p-2 h-full">
-    <div className="shadow border rounded w-full hover:scale-105 transition-all duration-150 cursor-pointer h-full">
-      {children}
-    </div>
+    <Link href={{ pathname: `/demo/${siteId}` }} passHref>
+      <div className="shadow border rounded w-full hover:scale-105 transition-all duration-150 cursor-pointer h-full">
+        {children}
+      </div>
+    </Link>
   </div>
 );
 
