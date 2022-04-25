@@ -26499,7 +26499,9 @@ var require_lib3 = __commonJS({
 
 // netlify/functions/sync-site-data.js
 var MongoClient = require_lib3().MongoClient;
-exports.handler = async () => {
-  return { body: "Working", statusCode: 200 };
+var mongoURI = process.env.MONGODB_URI;
+var baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+exports.handler = async (event, context) => {
+  return;
 };
 //# sourceMappingURL=sync-site-data.js.map
