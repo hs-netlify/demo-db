@@ -1,22 +1,9 @@
 const MongoClient = require("mongodb").MongoClient;
 import fetch from "node-fetch";
 
-const mongoURI = process.env.MONGO_URI;
+import { connectToDatabase } from "../../utils";
+
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-const dbName = "netlifydemodb";
-let cachedDb = null;
-
-const connectToDatabase = async (uri) => {
-  if (cachedDb) return cachedDb;
-
-  const client = await MongoClient.connect(uri, {
-    useUnifiedTopology: true,
-  });
-
-  cachedDb = client.db(dbName);
-
-  return cachedDb;
-};
 
 const syncDB = async (db) => {
   try {
@@ -41,6 +28,6 @@ exports.handler = async (event, context) => {
   // we keep the DB connection alive
   context.callbackWaitsForEmptyEventLoop = false;
 
-  const db = await connectToDatabase(mongoURI);
+  const db = await connectToDatabase();
   return syncDB(db);
 };
