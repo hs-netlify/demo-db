@@ -9,7 +9,7 @@ import { DemoDetail } from "../components/DemoDetail";
 
 export const getStaticProps = async () => {
   const sites = await (
-    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/get-sites?page=1`)
+    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/sites?page=1`)
   ).json();
 
   return {
