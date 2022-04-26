@@ -4,9 +4,9 @@ const getSites = async (db) => {
   try {
     const sites = await db
       .collection("sites")
-      .find({})
-      .sort({ "published_deploy.published_at": -1 })
-      .toArray();
+      .find()
+      .populate("tags")
+      .sort({ "published_deploy.published_at": -1 });
 
     return { statusCode: 200, body: JSON.stringify(sites) };
   } catch (error) {

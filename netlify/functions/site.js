@@ -1,4 +1,5 @@
 import { connectToDatabase } from "../../utils";
+import { ObjectId } from "mongodb";
 
 const fetchSite = async (db, siteId) => {
   try {
@@ -14,13 +15,18 @@ const fetchSite = async (db, siteId) => {
 
 const updateSiteDetails = async (db, siteId, props) => {
   try {
-    console.log({ ...props });
+    if (props.tags && props.tags.length > 1) {
+      props.tags = props.tags.map((tag) => ObjectId(tag));
+    }
     const site = await db
       .collection("sites")
       .findOneAndUpdate({ id: siteId }, { $set: { ...props } });
     return { statusCode: 200, body: JSON.stringify(site) };
   } catch (error) {
-    return { statusCode: 500, body: "Unable to update site" };
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: "Unable to update site" }),
+    };
   }
 };
 exports.handler = async (event, context) => {
@@ -31,7 +37,11 @@ exports.handler = async (event, context) => {
   const { siteId } = event.queryStringParameters;
 
   //Return bad request if no site id
-  if (!siteId) return { statusCode: 400, body: "Site ID not found" };
+  if (!siteId)
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ error: "Site ID not found" }),
+    };
 
   const db = connectToDatabase();
   if (event.httpMethod === "GET") {
@@ -39,7 +49,11 @@ exports.handler = async (event, context) => {
   } else if (event.httpMethod === "PUT") {
     const props = JSON.parse(event.body);
     const { siteId } = event.queryStringParameters;
-    if (!siteId) return { statusCode: 400, body: "Site ID not found" };
+    if (!siteId)
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: "Site ID not found" }),
+      };
     const db = await connectToDatabase();
 
     context.callbackWaitsForEmptyEventLoop = false;
