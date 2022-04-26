@@ -21,7 +21,7 @@ const Home = ({ sites }) => {
   const [search, setSearch] = useState("");
 
   return (
-    <div className="px-12 py-6">
+    <div className="px-12 py-6 bg-slate-600">
       <Head>
         <title>Netlify Demos</title>
         <meta name="description" content="Netlify SE Demo library" />

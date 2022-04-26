@@ -17,12 +17,13 @@ const Demo = ({ site }) => {
   return (
     <div className="flex items-center justify-center p-4">
       <img
-        className="rounded border shadow"
+        className="rounded border shadow w-1/2"
         src={site.screenshot_url}
         alt="No Image"
       />
-      <div>
+      <div className="w-1/2">
         <h1>{site.name}</h1>
+        <h2></h2>
       </div>
     </div>
   );
