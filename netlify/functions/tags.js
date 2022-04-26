@@ -2,7 +2,7 @@ import { connectToDatabase } from "../../utils";
 
 const fetchTagList = async (db) => {
   try {
-    const tags = await db.collection("tags").find({}).toArray();
+    const tags = await db.collection("sites").distinct("tags");
     return { statusCode: 200, body: JSON.stringify(tags) };
   } catch (error) {
     console.log(error);

@@ -6,7 +6,7 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 const syncDB = async (db) => {
   try {
-    const sites = await (await fetch(`${baseUrl}/api/sites`)).json();
+    const sites = await (await fetch(`${baseUrl}/api/fetch_sites`)).json();
 
     sites.forEach((site) => {
       db.collection("sites").findOneAndUpdate(

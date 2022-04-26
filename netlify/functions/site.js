@@ -1,5 +1,4 @@
 import { connectToDatabase } from "../../utils";
-import { ObjectId } from "mongodb";
 
 const fetchSite = async (db, siteId) => {
   try {
@@ -15,9 +14,6 @@ const fetchSite = async (db, siteId) => {
 
 const updateSiteDetails = async (db, siteId, props) => {
   try {
-    if (props.tags && props.tags.length > 1) {
-      props.tags = props.tags.map((tag) => ObjectId(tag));
-    }
     const site = await db
       .collection("sites")
       .findOneAndUpdate({ id: siteId }, { $set: { ...props } });

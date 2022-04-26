@@ -5,7 +5,6 @@ const getSites = async (db) => {
     const sites = await db
       .collection("sites")
       .find()
-      .populate("tags")
       .sort({ "published_deploy.published_at": -1 });
 
     return { statusCode: 200, body: JSON.stringify(sites) };
