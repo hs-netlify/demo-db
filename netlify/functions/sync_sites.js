@@ -17,7 +17,6 @@ const syncDB = async (db) => {
     });
     return { statusCode: 200, body: JSON.stringify({ msg: "Success" }) };
   } catch (error) {
-    console.log("Unable to sync sites ", error);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: "Unable to sync sites" }),

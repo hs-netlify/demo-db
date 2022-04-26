@@ -39,7 +39,7 @@ exports.handler = async (event, context) => {
       body: JSON.stringify({ error: "Site ID not found" }),
     };
 
-  const db = connectToDatabase();
+  const db = await connectToDatabase();
   if (event.httpMethod === "GET") {
     return fetchSite(db, siteId);
   } else if (event.httpMethod === "PUT") {
@@ -50,7 +50,6 @@ exports.handler = async (event, context) => {
         statusCode: 400,
         body: JSON.stringify({ error: "Site ID not found" }),
       };
-    const db = await connectToDatabase();
 
     context.callbackWaitsForEmptyEventLoop = false;
     return updateSiteDetails(db, siteId, props);

@@ -5,8 +5,21 @@ const DemoDetail = ({ demo }) => (
     <h1 className="p-2">{demo.name}</h1>
 
     <img alt="No Image" layout="fill" src={demo.screenshot_url} />
-    <div className="hover:opacity-100 rounded opacity-0 absolute top-0 transition-all duration-150 left-0 h-full w-full flex justify-center items-center px-8 bg-black bg-opacity-80 text-white">
+    <div className="hover:opacity-100 rounded opacity-0 absolute top-0 transition-all p-6 duration-150 left-0 h-full w-full flex flex-col justify-between items-center px-8 bg-black bg-opacity-80 text-white">
+      <div></div>
       <p>{demo.description}</p>
+      <div className="flex flex-wrap">
+        {demo.tags
+          ? demo.tags.map((tag) => (
+              <p
+                className="bg-blue-400 text-white rounded px-2 py-1 m-1"
+                key={tag}
+              >
+                {tag}
+              </p>
+            ))
+          : null}
+      </div>
     </div>
   </div>
 );

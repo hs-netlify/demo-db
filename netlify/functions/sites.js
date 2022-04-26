@@ -5,11 +5,11 @@ const getSites = async (db) => {
     const sites = await db
       .collection("sites")
       .find()
-      .sort({ "published_deploy.published_at": -1 });
+      .sort({ "published_deploy.published_at": -1 })
+      .toArray();
 
     return { statusCode: 200, body: JSON.stringify(sites) };
   } catch (error) {
-    console.log(error);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: "Unable to fetch sites" }),

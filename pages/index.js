@@ -13,16 +13,24 @@ export const getStaticProps = async () => {
     await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/sites`)
   ).json();
 
+  const tags = await (
+    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/tags`)
+  ).json();
+
   return {
-    props: { sites },
+    props: { sites, tags },
   };
 };
 
-const Home = ({ sites }) => {
-  const [search, setSearch] = useState("");
+const checkTag = (tags, search) => {
+  return tags.filter((tag) => search.includes(tag));
+};
+
+const Home = ({ sites, tags }) => {
+  const [search, setSearch] = useState([]);
 
   return (
-    <div className=" bg-slate-600">
+    <div className=" ">
       <Head>
         <title>Netlify Demos</title>
         <meta name="description" content="Netlify SE Demo library" />
@@ -30,17 +38,29 @@ const Home = ({ sites }) => {
       </Head>
       <Header />
       <div className="px-12 py-6">
-        <SearchBar setSearch={setSearch}></SearchBar>
+        <SearchBar
+          search={search}
+          setSearch={setSearch}
+          tags={tags}
+        ></SearchBar>
         <Grid>
-          {sites.map((site) => {
-            if (site.name.includes(search)) {
-              return (
-                <DemoCard key={site.id} siteId={site.id}>
-                  <DemoDetail demo={site} />
-                </DemoCard>
-              );
-            }
-          })}
+          {search.length > 0
+            ? sites.map((site) => {
+                if (site.tags && checkTag(site.tags, search)) {
+                  return (
+                    <DemoCard key={site.id} siteId={site.id}>
+                      <DemoDetail demo={site} />
+                    </DemoCard>
+                  );
+                }
+              })
+            : sites.map((site) => {
+                return (
+                  <DemoCard key={site.id} siteId={site.id}>
+                    <DemoDetail demo={site} />
+                  </DemoCard>
+                );
+              })}
         </Grid>
       </div>
     </div>
