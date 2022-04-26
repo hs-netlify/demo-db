@@ -6,6 +6,7 @@ import Grid from "../components/Grid";
 import DemoCard from "../components/DemoCard";
 import SearchBar from "../components/SearchBar";
 import DemoDetail from "../components/DemoDetail";
+import Header from "../components/Header";
 
 export const getStaticProps = async () => {
   const sites = await (
@@ -21,24 +22,27 @@ const Home = ({ sites }) => {
   const [search, setSearch] = useState("");
 
   return (
-    <div className="px-12 py-6 bg-slate-600">
+    <div className=" bg-slate-600">
       <Head>
         <title>Netlify Demos</title>
         <meta name="description" content="Netlify SE Demo library" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <SearchBar setSearch={setSearch}></SearchBar>
-      <Grid>
-        {sites.map((site) => {
-          if (site.name.includes(search)) {
-            return (
-              <DemoCard key={site.id} siteId={site.id}>
-                <DemoDetail demo={site} />
-              </DemoCard>
-            );
-          }
-        })}
-      </Grid>
+      <Header />
+      <div className="px-12 py-6">
+        <SearchBar setSearch={setSearch}></SearchBar>
+        <Grid>
+          {sites.map((site) => {
+            if (site.name.includes(search)) {
+              return (
+                <DemoCard key={site.id} siteId={site.id}>
+                  <DemoDetail demo={site} />
+                </DemoCard>
+              );
+            }
+          })}
+        </Grid>
+      </div>
     </div>
   );
 };
