@@ -24,9 +24,20 @@ a {
 }
 
 .netlify-button {
-  @apply px-2 py-1 rounded inline-block bg-gray-200 w-20 text-center  cursor-pointer shadow transition-all duration-200 hover:bg-teal-100;
+  min-width: 5rem;
+  @apply px-2 py-1 rounded inline-block bg-gray-200 text-center cursor-pointer shadow transition-all duration-200 hover:bg-teal-100;
 }
 
 .tag {
   @apply bg-gray-200 px-2 py-1 rounded shadow mx-1;
+}
+
+td {
+  vertical-align: top;
+
+  @apply px-6 py-4;
+}
+
+tr {
+  @apply odd:bg-white even:bg-gray-50;
 }

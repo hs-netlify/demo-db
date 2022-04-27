@@ -31,7 +31,9 @@ const Demo = ({ site }) => {
   const [currentSite, setCurrentSite] = useState({ ...site });
   const [search, setSearch] = useState(site.tags);
 
-  const preEnv = showEnv ? "visible" : "invisible";
+  const preEnv = showEnv ? "block" : "hidden";
+
+  const tableHeader = "text-lg pr-4";
 
   const handleSubmit = async () => {
     try {
@@ -60,110 +62,164 @@ const Demo = ({ site }) => {
           <h1 className="w-full h-full text-center p-4 text-3xl">
             {site.name}
           </h1>
-          <div className="w-full h-full  flex flex-wrap">
-            <div className="w-full lg:w-1/2">
-              <img
-                className="rounded border shadow w-full md:max-w-lg "
-                src={site.screenshot_url}
-                alt="No Image"
-              />
+          <div className="w-full h-full justify-center  flex flex-wrap">
+            <div className="w-full flex justify-center	pt-4 lg:w-1/2">
+              <div className="px-4">
+                <a
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:underline py-2 hover:text-blue-700"
+                  href={site.url}
+                >
+                  <img
+                    className="rounded border hover:opacity-90 transition-all duration-200 cursor-pointer shadow w-full  "
+                    src={site.screenshot_url}
+                    alt="No Image"
+                  />
+                </a>
+              </div>
             </div>
 
-            <div className="w-1/2 px-4">
-              <h2 className="text-lg pt-2">Description</h2>
-              {edit ? (
-                <textarea
-                  className="w-full border p-1 rounded"
-                  onChange={(e) => {
-                    setDescription(e.target.value);
-                  }}
-                  defaultValue={currentSite?.description}
-                ></textarea>
-              ) : (
-                <p className="py-2">{currentSite?.description}</p>
-              )}
-
-              <h2 className="text-lg pt-2">Tags</h2>
-              <div className="flex  ">
-                {edit ? (
-                  <SearchBar
-                    tags={tags}
-                    search={search}
-                    setSearch={setSearch}
-                    add={true}
-                    setTags={setTags}
-                  />
-                ) : (
-                  currentSite?.tags?.map((i) => (
-                    <div key={i} className="tag">
-                      {i}
-                    </div>
-                  ))
-                )}
-              </div>
-              <h2 className="text-lg pt-2">URL</h2>
-              <a
-                target="_blank"
-                rel="noreferrer"
-                className="hover:underline py-2 hover:text-blue-700"
-                href={site.url}
-              >
-                <p className="py-2">{site.url}</p>
-              </a>
-              <h2 className="text-lg pt-2">Repository</h2>
-              <a
-                className="hover:underline hover:text-blue-700"
-                href={site?.build_settings?.repo_url}
-              >
-                <p className="py-2"> {site?.build_settings?.repo_url}</p>
-              </a>
-              <div className="flex items-center pt-2">
-                <h2 className="text-lg">Environment Variables</h2>{" "}
-                <div className="px-2 flex">
-                  <FontAwesomeIcon
-                    onClick={() => {
-                      setShowEnv(!showEnv);
-                    }}
-                    icon={showEnv ? faEyeSlash : faEye}
-                  />
+            <div className="w-full lg:w-1/2 mt-4 px-1">
+              <div className="rounded shadow border border-gray-200">
+                <div className="px-4 pt-6">
+                  <div className="border-b w-full text-3xl border-gray-200">
+                    <h1 className="pb-4">Site Infomation</h1>
+                  </div>
+                </div>
+                <div className="w-full pt-4">
+                  <table className=" border-collapse table-auto align-top">
+                    <tr>
+                      <td>
+                        <h2 className={tableHeader}>Description:</h2>
+                      </td>
+                      <td className="break-word whitespace-pre-wrap">
+                        {edit ? (
+                          <textarea
+                            className="w-full border break-word p-1 rounded"
+                            onChange={(e) => {
+                              setDescription(e.target.value);
+                            }}
+                            defaultValue={currentSite?.description}
+                          ></textarea>
+                        ) : (
+                          <p className="break-word whitespace-pre-wrap">
+                            {currentSite?.description}
+                          </p>
+                        )}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <h2 className={tableHeader}>Tags:</h2>
+                      </td>
+                      <td>
+                        <div className="flex  flex-wrap">
+                          {edit ? (
+                            <SearchBar
+                              tags={tags}
+                              search={search}
+                              setSearch={setSearch}
+                              add={true}
+                              setTags={setTags}
+                            />
+                          ) : (
+                            currentSite?.tags?.map((i) => (
+                              <div key={i} className="tag mt-1">
+                                {i}
+                              </div>
+                            ))
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <h2 className={tableHeader}>URL:</h2>{" "}
+                      </td>
+                      <td>
+                        <a
+                          target="_blank"
+                          rel="noreferrer"
+                          className="hover:underline hover:text-blue-700"
+                          href={site.url}
+                        >
+                          <p className="break-all">{site.url}</p>
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <h2 className={tableHeader}>Repository:</h2>
+                      </td>
+                      <td>
+                        <a
+                          className="hover:underline hover:text-blue-700"
+                          href={site?.build_settings?.repo_url}
+                        >
+                          <p className="break-all">
+                            {site?.build_settings?.repo_url}
+                          </p>
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div className="flex items-center">
+                          <h2 className={tableHeader}>Env</h2>{" "}
+                          <div className="px-2 flex">
+                            <FontAwesomeIcon
+                              onClick={() => {
+                                setShowEnv(!showEnv);
+                              }}
+                              icon={showEnv ? faEyeSlash : faEye}
+                            />
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <pre
+                          className={`${preEnv} text-xs  p-1 whitespace-pre-wrap break-all`}
+                        >
+                          {JSON.stringify(site?.build_settings?.env, null, 4)}
+                        </pre>
+                      </td>
+                    </tr>
+                  </table>
+                  <div className="p-4">
+                    {edit && (
+                      <div
+                        className="netlify-button"
+                        onClick={() => {
+                          handleSubmit();
+                        }}
+                      >
+                        Submit
+                      </div>
+                    )}
+                    {edit && (
+                      <div
+                        className="ml-2 netlify-button"
+                        onClick={() => {
+                          setEdit(!edit);
+                        }}
+                      >
+                        Cancel
+                      </div>
+                    )}
+                    {!edit && (
+                      <div
+                        className="netlify-button"
+                        onClick={() => {
+                          setEdit(!edit);
+                        }}
+                      >
+                        Edit
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
-
-              <pre
-                className={`${preEnv} py-2 text-sm p-1 whitespace-pre-wrap break-words`}
-              >
-                {JSON.stringify(site?.build_settings?.env, null, 4)}
-              </pre>
-              {edit && (
-                <div
-                  className="netlify-button"
-                  onClick={() => {
-                    handleSubmit();
-                  }}
-                >
-                  Submit
-                </div>
-              )}
-              {edit && (
-                <div
-                  className="netlify-button"
-                  onClick={() => {
-                    setEdit(!edit);
-                  }}
-                >
-                  Cancel
-                </div>
-              )}
-              {!edit && (
-                <div
-                  className="netlify-button"
-                  onClick={() => {
-                    setEdit(!edit);
-                  }}
-                >
-                  Edit
-                </div>
-              )}
             </div>
           </div>
         </Wrapper>
