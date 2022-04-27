@@ -14,11 +14,13 @@ const fetchSite = async (db, siteId) => {
 
 const updateSiteDetails = async (db, siteId, props) => {
   try {
+    delete props["_id"];
     const site = await db
       .collection("sites")
       .findOneAndUpdate({ id: siteId }, { $set: { ...props } });
     return { statusCode: 200, body: JSON.stringify(site) };
   } catch (error) {
+    console.log(error);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: "Unable to update site" }),
@@ -44,6 +46,7 @@ exports.handler = async (event, context) => {
     return fetchSite(db, siteId);
   } else if (event.httpMethod === "PUT") {
     const props = JSON.parse(event.body);
+
     const { siteId } = event.queryStringParameters;
     if (!siteId)
       return {

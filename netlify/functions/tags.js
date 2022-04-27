@@ -13,6 +13,8 @@ const fetchTagList = async (db) => {
 };
 
 exports.handler = async (event, context) => {
+  context.callbackWaitsForEmptyEventLoop = false;
   const db = await connectToDatabase();
+
   return fetchTagList(db);
 };

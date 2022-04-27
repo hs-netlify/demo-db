@@ -10,13 +10,15 @@ const getSites = async (db) => {
 
     return { statusCode: 200, body: JSON.stringify(sites) };
   } catch (error) {
+    console.log(error);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: "Unable to fetch sites" }),
     };
   }
 };
-exports.handler = async () => {
+exports.handler = async (event, context) => {
+  context.callbackWaitsForEmptyEventLoop = false;
   const db = await connectToDatabase();
   return getSites(db);
 };

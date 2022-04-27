@@ -1,4 +1,5 @@
 import fetch from "node-fetch";
+const { schedule } = require("@netlify/functions");
 
 import { connectToDatabase } from "../../utils";
 
@@ -17,6 +18,7 @@ const syncDB = async (db) => {
     });
     return { statusCode: 200, body: JSON.stringify({ msg: "Success" }) };
   } catch (error) {
+    console.log(error);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: "Unable to sync sites" }),
@@ -24,7 +26,7 @@ const syncDB = async (db) => {
   }
 };
 
-exports.handler = async (event, context) => {
+const handler = async (event, context) => {
   // otherwise the connection will never complete, since
   // we keep the DB connection alive
   context.callbackWaitsForEmptyEventLoop = false;
@@ -32,3 +34,5 @@ exports.handler = async (event, context) => {
   const db = await connectToDatabase();
   return syncDB(db);
 };
+
+module.exports.handler = schedule("*/2 * * * *", handler);

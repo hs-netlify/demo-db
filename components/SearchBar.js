@@ -1,8 +1,6 @@
-import { withCoalescedInvoke } from "next/dist/lib/coalesced-function";
 import React, { useState, useEffect, useRef } from "react";
-import ReactTags from "react-tag-autocomplete";
 
-const SearchBar = ({ setSearch, search, tags }) => {
+const SearchBar = ({ setSearch, search, tags, setTags, add }) => {
   const [state, setState] = useState();
   const suggestions = useRef([]);
   const [sug, setSug] = useState([]);
@@ -36,13 +34,19 @@ const SearchBar = ({ setSearch, search, tags }) => {
     }
   };
 
+  const addTag = async (tag) => {
+    setTags([...tags, tag]);
+    setSearch([...tags, tag]);
+    setState("");
+  };
+
   return (
-    <div className="w-full flex flex-col px-20 ">
+    <div className="w-full flex flex-col  ">
       <div className="relative">
         <input
           type="text"
           className="rounded-full w-full shadow border p-2 px-6"
-          placeholder="Search"
+          placeholder="Search Tags"
           value={state}
           onChange={(e) => setState(e.currentTarget.value)}
         />
@@ -54,7 +58,7 @@ const SearchBar = ({ setSearch, search, tags }) => {
                   updateSearchList(suggestion);
                 }}
                 key={suggestion}
-                className="rounded cursor-pointer hover:bg-blue-300 bg-blue-400 shadow mx-1 text-white p-1 px-2"
+                className="tag cursor-pointer hover:bg-teal-100"
               >
                 {suggestion}
               </div>
@@ -63,15 +67,27 @@ const SearchBar = ({ setSearch, search, tags }) => {
             )
           )}
         </div>
+        {add && state && !tags.includes(state) && (
+          <div className="absolute top-1 right-1">
+            <div
+              onClick={() => {
+                addTag(state);
+              }}
+              className="rounded-r-full cursor-pointer  border bg-gray-200 hover:bg-teal-200 py-1  px-6"
+            >
+              Add
+            </div>
+          </div>
+        )}
       </div>
-      <div className="flex p-2 h-12">
+      <div className="flex flex-wrap p-2 min-h-12">
         {search.map((i) => (
           <div
             onClick={() => {
               removeTagFromList(i);
             }}
             key={i}
-            className="rounded cursor-pointer bg-blue-400 mx-1 shadow text-white p-1 px-2 hover:bg-red-400"
+            className="tag cursor-pointer hover:bg-red-200"
           >
             {i}
           </div>

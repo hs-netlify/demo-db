@@ -23,3 +23,11 @@ a {
 .grid-cols-auto-fit {
   grid-template-columns: repeat(auto-fit, minmax(300px, 500px));
 }
+
+.netlify-button {
+  @apply px-2 py-1 rounded inline-block bg-gray-200 w-20 text-center  cursor-pointer shadow transition-all duration-200 hover:bg-teal-100;
+}
+
+.tag {
+  @apply bg-gray-200 px-2 py-1 rounded shadow mx-1;
+}
