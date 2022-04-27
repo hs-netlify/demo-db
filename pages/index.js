@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
 
 //Components
@@ -28,6 +28,21 @@ const checkTag = (tags, search) => {
 
 const Home = ({ sites, tags }) => {
   const [search, setSearch] = useState([]);
+  const [siteNumber, setSiteNumber] = useState(12);
+  const [filteredSites, setFilteredSites] = useState([]);
+
+  useEffect(() => {
+    let s =
+      search.length > 0
+        ? sites.filter((site) => site.tags && checkTag(site.tags, search))
+        : sites;
+
+    setFilteredSites(s.slice(0, siteNumber));
+  }, [sites, siteNumber, search]);
+
+  useEffect(() => {
+    setSiteNumber(12);
+  }, [search]);
 
   return (
     <div className=" ">
@@ -38,30 +53,33 @@ const Home = ({ sites, tags }) => {
       </Head>
       <Header />
       <div className="px-12 py-6">
-        <SearchBar
-          search={search}
-          setSearch={setSearch}
-          tags={tags}
-        ></SearchBar>
+        <div className="px-20">
+          <SearchBar
+            search={search}
+            setSearch={setSearch}
+            tags={tags}
+          ></SearchBar>
+        </div>
         <Grid>
-          {search.length > 0
-            ? sites.map((site) => {
-                if (site.tags && checkTag(site.tags, search)) {
-                  return (
-                    <DemoCard key={site.id} siteId={site.id}>
-                      <DemoDetail demo={site} />
-                    </DemoCard>
-                  );
-                }
-              })
-            : sites.map((site) => {
-                return (
-                  <DemoCard key={site.id} siteId={site.id}>
-                    <DemoDetail demo={site} />
-                  </DemoCard>
-                );
-              })}
+          {filteredSites.map((site) => (
+            <DemoCard key={site.id} siteId={site.id}>
+              <DemoDetail demo={site} />
+            </DemoCard>
+          ))}
         </Grid>
+
+        {sites.length > siteNumber && filteredSites.length === siteNumber && (
+          <div className="flex justify-center w-full">
+            <div
+              className="netlify-button"
+              onClick={() => {
+                setSiteNumber(siteNumber + 12);
+              }}
+            >
+              Load More
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

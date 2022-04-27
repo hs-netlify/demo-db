@@ -1,6 +1,6 @@
 import { connectToDatabase } from "../../utils";
 
-const getSites = async (db) => {
+const getSites = async (db, page, perPage) => {
   try {
     const sites = await db
       .collection("sites")
@@ -18,7 +18,9 @@ const getSites = async (db) => {
   }
 };
 exports.handler = async (event, context) => {
+  const { page, perPage } = event.queryStringParameters;
+
   context.callbackWaitsForEmptyEventLoop = false;
   const db = await connectToDatabase();
-  return getSites(db);
+  return getSites(db, page, perPage);
 };

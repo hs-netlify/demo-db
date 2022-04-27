@@ -129,7 +129,9 @@ const Demo = ({ site }) => {
                 </div>
               </div>
 
-              <pre className={`${preEnv} py-2 text-sm p-1 whitespace-pre-wrap`}>
+              <pre
+                className={`${preEnv} py-2 text-sm p-1 whitespace-pre-wrap break-words`}
+              >
                 {JSON.stringify(site?.build_settings?.env, null, 4)}
               </pre>
               {edit && (
