@@ -23,7 +23,8 @@ export const getServerSideProps = async () => {
 };
 
 const checkTag = (tags, search) => {
-  return tags.filter((tag) => search.includes(tag));
+  let res = tags.filter((tag) => search.includes(tag));
+  return res.length === search.length ? true : false;
 };
 
 const Home = ({ sites, tags }) => {
@@ -32,6 +33,7 @@ const Home = ({ sites, tags }) => {
   const [filteredSites, setFilteredSites] = useState([]);
 
   useEffect(() => {
+    console.log(search);
     let s =
       search.length > 0
         ? sites.filter((site) => site.tags && checkTag(site.tags, search))
