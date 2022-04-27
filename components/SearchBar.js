@@ -9,12 +9,13 @@ const SearchBar = ({ setSearch, search, tags, setTags, add }) => {
     suggestions.current = [];
     const res = [];
 
-    tags.forEach((tag) => {
-      if (state && tag.toLowerCase().match(`${state.toLowerCase()}.*`, "g"))
-        if (!search.includes(tag)) {
-          res.push(tag);
-        }
-    });
+    tags &&
+      tags.forEach((tag) => {
+        if (state && tag.toLowerCase().match(`${state.toLowerCase()}.*`, "g"))
+          if (!search.includes(tag)) {
+            res.push(tag);
+          }
+      });
     suggestions.current = res;
     setSug(suggestions.current);
   }, [state, search, tags]);
@@ -67,7 +68,7 @@ const SearchBar = ({ setSearch, search, tags, setTags, add }) => {
             )
           )}
         </div>
-        {add && state && !tags.includes(state) && (
+        {add && state && !tags?.includes(state) && (
           <div className="absolute top-1 right-1">
             <div
               onClick={() => {
@@ -81,17 +82,18 @@ const SearchBar = ({ setSearch, search, tags, setTags, add }) => {
         )}
       </div>
       <div className="flex flex-wrap p-2 min-h-12">
-        {search.map((i) => (
-          <div
-            onClick={() => {
-              removeTagFromList(i);
-            }}
-            key={i}
-            className="tag cursor-pointer hover:bg-red-200"
-          >
-            {i}
-          </div>
-        ))}
+        {search &&
+          search.map((i) => (
+            <div
+              onClick={() => {
+                removeTagFromList(i);
+              }}
+              key={i}
+              className="tag cursor-pointer hover:bg-red-200"
+            >
+              {i}
+            </div>
+          ))}
       </div>
     </div>
   );

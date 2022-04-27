@@ -27,7 +27,7 @@ const Demo = ({ site }) => {
   const [edit, setEdit] = useState(false);
   const [showEnv, setShowEnv] = useState(false);
   const [description, setDescription] = useState(site?.description);
-  const [tags, setTags] = useState(site?.tags);
+  const [tags, setTags] = useState(site.tags ? tags : []);
   const [currentSite, setCurrentSite] = useState({ ...site });
   const [search, setSearch] = useState(site.tags);
 
