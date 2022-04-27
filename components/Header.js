@@ -12,7 +12,7 @@ const Header = () => (
         </div>
       </Link>
     </div>
-    <div className="text-4xl w-full text-center">Netlify SE Demo Hub</div>
+
     <div className="w-full flex justify-end">
       <img
         className="h-36"
