@@ -29,7 +29,7 @@ a {
 }
 
 .tag {
-  @apply bg-gray-200 px-2 py-1 rounded shadow mx-1;
+  @apply bg-gray-200 px-2 py-1 rounded shadow m-1;
 }
 
 td {

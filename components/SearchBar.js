@@ -46,12 +46,12 @@ const SearchBar = ({ setSearch, search, tags, setTags, add }) => {
       <div className="relative">
         <input
           type="text"
-          className="rounded-full w-full shadow border p-2 px-6"
+          className="rounded-full active:border-teal-100 w-full shadow border p-2 px-6"
           placeholder="Search Tags"
           value={state}
           onChange={(e) => setState(e.currentTarget.value)}
         />
-        <div className="absolute top-0 left-40 flex items-center h-full">
+        <div className="absolute top-0 left-28 flex items-center h-full">
           {suggestions.current.map((suggestion, i) =>
             i < 6 ? (
               <div
