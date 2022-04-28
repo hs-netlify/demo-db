@@ -43,8 +43,13 @@ const SearchBar = ({ setSearch, search, tags, setTags, add }) => {
   };
 
   const addTag = async (tag) => {
-    setTags([...search, tag]);
-    setSearch([...search, tag]);
+    if (search && search.length > 0) {
+      setTags([...search, tag]);
+      setSearch([...search, tag]);
+    } else {
+      setTags([tag]);
+      setSearch([tag]);
+    }
     setState("");
   };
 
