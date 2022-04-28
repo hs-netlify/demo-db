@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Head from "next/head";
 
 import Header from "../../components/Header";
 import Wrapper from "../../components/Wrapper";
@@ -63,6 +64,14 @@ const Demo = ({ site, tags }) => {
   if (site) {
     return (
       <>
+        <Head>
+          <title>{`Netlify Demo Portal - ${site.name}`}</title>
+          <meta
+            name="description"
+            content={`Netlify Demo Portal - ${site.name}`}
+          />
+          <link rel="icon" href={`/favicon.png`} />
+        </Head>
         <Header />
         <Wrapper>
           <h1 className="w-full h-full text-center p-4 text-3xl">

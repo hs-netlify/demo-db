@@ -50,8 +50,8 @@ const Home = ({ sites, tags }) => {
     <div className=" ">
       <Head>
         <title>Netlify Demos</title>
-        <meta name="description" content="Netlify SE Demo library" />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name="description" content="Netlify Demo Portal" />
+        <link rel="icon" href={`/favicon.png`} />
       </Head>
       <Header />
       <div className="px-12 py-6">
