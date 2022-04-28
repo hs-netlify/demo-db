@@ -10,9 +10,14 @@ const SearchBar = ({ setSearch, search, tags, setTags, add }) => {
     const res = [];
 
     tags &&
+      tags.length > 0 &&
       tags.forEach((tag) => {
-        if (state && tag.toLowerCase().match(`${state.toLowerCase()}.*`, "g"))
-          if (!search.includes(tag)) {
+        if (
+          state &&
+          tag &&
+          tag.toLowerCase().match(`${state.toLowerCase()}.*`, "g")
+        )
+          if (!search || search.length === 0 || !search.includes(tag)) {
             res.push(tag);
           }
       });
@@ -21,7 +26,9 @@ const SearchBar = ({ setSearch, search, tags, setTags, add }) => {
   }, [state, search, tags]);
 
   const updateSearchList = (tag) => {
-    setSearch([...search, tag]);
+    search && search.length > 0
+      ? setSearch([...search, tag])
+      : setSearch([tag]);
     setState("");
   };
 
@@ -36,8 +43,8 @@ const SearchBar = ({ setSearch, search, tags, setTags, add }) => {
   };
 
   const addTag = async (tag) => {
-    setTags([...tags, tag]);
-    setSearch([...tags, tag]);
+    setTags([...search, tag]);
+    setSearch([...search, tag]);
     setState("");
   };
 
@@ -51,7 +58,7 @@ const SearchBar = ({ setSearch, search, tags, setTags, add }) => {
           value={state}
           onChange={(e) => setState(e.currentTarget.value)}
         />
-        <div className="absolute top-0 left-28 flex items-center h-full">
+        <div className="absolute top-0 left-24 flex items-center h-full">
           {suggestions.current.map((suggestion, i) =>
             i < 6 ? (
               <div
@@ -68,11 +75,11 @@ const SearchBar = ({ setSearch, search, tags, setTags, add }) => {
             )
           )}
         </div>
-        {add && state && !tags?.includes(state) && (
-          <div className="absolute top-1 right-1">
+        {add && state && !tags?.includes(state.toLowerCase()) && (
+          <div className="absolute top-1 right-1 z-10">
             <div
               onClick={() => {
-                addTag(state);
+                addTag(state.toLowerCase());
               }}
               className="rounded-r-full cursor-pointer  border bg-gray-200 hover:bg-teal-200 py-1  px-6"
             >

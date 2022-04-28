@@ -26,10 +26,10 @@ export const getServerSideProps = async (context) => {
 const Demo = ({ site, tags }) => {
   const [edit, setEdit] = useState(false);
   const [showEnv, setShowEnv] = useState(false);
-  const [description, setDescription] = useState(site?.description);
   const [tagsState, setTagsState] = useState(tags);
   const [currentSite, setCurrentSite] = useState({ ...site });
-  const [search, setSearch] = useState(site.tags);
+  const [search, setSearch] = useState(currentSite.tags);
+  const [description, setDescription] = useState(currentSite?.description);
 
   const preEnv = showEnv ? "block" : "hidden";
 
@@ -52,6 +52,12 @@ const Demo = ({ site, tags }) => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const cancelEdit = () => {
+    setEdit(false);
+    setSearch(currentSite.tags);
+    setDescription();
   };
 
   if (site) {
@@ -88,7 +94,7 @@ const Demo = ({ site, tags }) => {
                   </div>
                 </div>
                 <div className="w-full pt-4">
-                  <table className=" border-collapse table-auto align-top">
+                  <table className=" border-collapse w-full table-auto align-top">
                     <tr>
                       <td>
                         <h2 className={tableHeader}>Description:</h2>
@@ -114,7 +120,7 @@ const Demo = ({ site, tags }) => {
                         <h2 className={tableHeader}>Tags:</h2>
                       </td>
                       <td>
-                        <div className="flex  flex-wrap">
+                        <div className="flex w-full  flex-wrap">
                           {edit ? (
                             <SearchBar
                               tags={tagsState}
@@ -201,7 +207,7 @@ const Demo = ({ site, tags }) => {
                       <div
                         className="ml-2 netlify-button"
                         onClick={() => {
-                          setEdit(!edit);
+                          cancelEdit();
                         }}
                       >
                         Cancel
@@ -211,7 +217,7 @@ const Demo = ({ site, tags }) => {
                       <div
                         className="netlify-button"
                         onClick={() => {
-                          setEdit(!edit);
+                          setEdit(true);
                         }}
                       >
                         Edit
