@@ -32,7 +32,7 @@ export const getStaticPaths = async () => {
     params: { id: site.id },
   }));
 
-  return { paths: paths, fallback: true };
+  return { paths: paths, fallback: blocking };
 };
 
 const Demo = ({ site, tags }) => {
