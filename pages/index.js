@@ -38,7 +38,7 @@ const Home = ({ sites, tags }) => {
         ? sites.filter((site) => site.tags && checkTag(site.tags, search))
         : sites;
 
-    s.length < 0
+    s.length > 0
       ? setFilteredSites(s.slice(0, siteNumber))
       : setFilteredSites([]);
   }, [sites, siteNumber, search]);
