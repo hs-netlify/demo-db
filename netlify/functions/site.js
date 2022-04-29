@@ -18,6 +18,10 @@ const updateSiteDetails = async (db, siteId, props) => {
     const site = await db
       .collection("sites")
       .findOneAndUpdate({ id: siteId }, { $set: { ...props } });
+    const rebuild = await fetch(
+      "https://api.netlify.com/build_hooks/626bb8a4d4e0bd6a3b189d9c",
+      { method: "POST" }
+    );
     return { statusCode: 200, body: JSON.stringify(site) };
   } catch (error) {
     console.log(error);

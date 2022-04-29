@@ -35,4 +35,4 @@ const handler = async (event, context) => {
   return syncDB(db);
 };
 
-module.exports.handler = schedule("*/2 * * * *", handler);
+module.exports.handler = schedule("*/10 * * * *", handler);
