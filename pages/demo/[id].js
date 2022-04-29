@@ -8,7 +8,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SearchBar from "../../components/SearchBar";
 
-export const getStaticProps = async (context) => {
+export const getServerSideProps = async (context) => {
   let site = {};
 
   const tags = await (
@@ -24,16 +24,16 @@ export const getStaticProps = async (context) => {
   return { props: { site, tags } };
 };
 
-export const getStaticPaths = async () => {
-  const sites = await (
-    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/sites`)
-  ).json();
-  const paths = sites.map((site) => ({
-    params: { id: site.id },
-  }));
+// export const getStaticPaths = async () => {
+//   const sites = await (
+//     await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/sites`)
+//   ).json();
+//   const paths = sites.map((site) => ({
+//     params: { id: site.id },
+//   }));
 
-  return { paths: paths, fallback: "blocking" };
-};
+//   return { paths: paths, fallback: "blocking" };
+// };
 
 const Demo = ({ site, tags }) => {
   const [edit, setEdit] = useState(false);
