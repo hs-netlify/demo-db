@@ -8,20 +8,25 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SearchBar from "../../components/SearchBar";
 
-export const getServerSideProps = async (context) => {
+export const getStaticProps = async (context) => {
   let site = {};
 
-  const tags = await (
-    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/tags`)
-  ).json();
+  const tags = await (await fetch(`api/tags`)).json();
   try {
     const { id } = context.params;
-    site = await (
-      await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/site?siteId=${id}`)
-    ).json();
+    site = await (await fetch(`api/site?siteId=${id}`)).json();
   } catch (error) {}
 
   return { props: { site, tags } };
+};
+
+export const getStaticPaths = async () => {
+  const sites = await (await fetch("api/sites")).json();
+  const paths = sites.map((site) => ({
+    params: site.id,
+  }));
+
+  return { paths: paths, fallback: true };
 };
 
 const Demo = ({ site, tags }) => {
