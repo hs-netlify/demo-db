@@ -29,7 +29,7 @@ export const getStaticPaths = async () => {
     await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/sites`)
   ).json();
   const paths = sites.map((site) => ({
-    params: site.id,
+    params: { id: site.id },
   }));
 
   return { paths: paths, fallback: true };
