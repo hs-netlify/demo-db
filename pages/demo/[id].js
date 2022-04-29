@@ -11,17 +11,23 @@ import SearchBar from "../../components/SearchBar";
 export const getStaticProps = async (context) => {
   let site = {};
 
-  const tags = await (await fetch(`api/tags`)).json();
+  const tags = await (
+    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/tags`)
+  ).json();
   try {
     const { id } = context.params;
-    site = await (await fetch(`api/site?siteId=${id}`)).json();
+    site = await (
+      await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/site?siteId=${id}`)
+    ).json();
   } catch (error) {}
 
   return { props: { site, tags } };
 };
 
 export const getStaticPaths = async () => {
-  const sites = await (await fetch("api/sites")).json();
+  const sites = await (
+    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/sites`)
+  ).json();
   const paths = sites.map((site) => ({
     params: site.id,
   }));
