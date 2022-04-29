@@ -33,13 +33,14 @@ const Home = ({ sites, tags }) => {
   const [filteredSites, setFilteredSites] = useState([]);
 
   useEffect(() => {
-    console.log(search);
     let s =
       search.length > 0
         ? sites.filter((site) => site.tags && checkTag(site.tags, search))
         : sites;
 
-    setFilteredSites(s.slice(0, siteNumber));
+    s.length < 0
+      ? setFilteredSites(s.slice(0, siteNumber))
+      : setFilteredSites([]);
   }, [sites, siteNumber, search]);
 
   useEffect(() => {
