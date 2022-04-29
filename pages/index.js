@@ -8,7 +8,7 @@ import SearchBar from "../components/SearchBar";
 import DemoDetail from "../components/DemoDetail";
 import Header from "../components/Header";
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
   const sites = await (
     await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/sites`)
   ).json();
@@ -33,13 +33,14 @@ const Home = ({ sites, tags }) => {
   const [filteredSites, setFilteredSites] = useState([]);
 
   useEffect(() => {
-    console.log(search);
     let s =
       search.length > 0
         ? sites.filter((site) => site.tags && checkTag(site.tags, search))
         : sites;
 
-    setFilteredSites(s.slice(0, siteNumber));
+    s.length > 0
+      ? setFilteredSites(s.slice(0, siteNumber))
+      : setFilteredSites([]);
   }, [sites, siteNumber, search]);
 
   useEffect(() => {

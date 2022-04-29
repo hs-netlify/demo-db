@@ -8,7 +8,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SearchBar from "../../components/SearchBar";
 
-export const getServerSideProps = async (context) => {
+export const getStaticProps = async (context) => {
   let site = {};
 
   const tags = await (
@@ -22,6 +22,17 @@ export const getServerSideProps = async (context) => {
   } catch (error) {}
 
   return { props: { site, tags } };
+};
+
+export const getStaticPaths = async () => {
+  const sites = await (
+    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/sites`)
+  ).json();
+  const paths = sites.map((site) => ({
+    params: { id: site.id },
+  }));
+
+  return { paths: paths, fallback: true };
 };
 
 const Demo = ({ site, tags }) => {
@@ -104,102 +115,104 @@ const Demo = ({ site, tags }) => {
                 </div>
                 <div className="w-full pt-4">
                   <table className=" border-collapse w-full table-auto align-top">
-                    <tr>
-                      <td>
-                        <h2 className={tableHeader}>Description:</h2>
-                      </td>
-                      <td className="break-word whitespace-pre-wrap">
-                        {edit ? (
-                          <textarea
-                            className="w-full border break-word p-1 rounded"
-                            onChange={(e) => {
-                              setDescription(e.target.value);
-                            }}
-                            defaultValue={currentSite?.description}
-                          ></textarea>
-                        ) : (
-                          <p className="break-word whitespace-pre-wrap">
-                            {currentSite?.description}
-                          </p>
-                        )}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <h2 className={tableHeader}>Tags:</h2>
-                      </td>
-                      <td>
-                        <div className="flex w-full  flex-wrap">
+                    <tbody>
+                      <tr>
+                        <td>
+                          <h2 className={tableHeader}>Description:</h2>
+                        </td>
+                        <td className="break-word whitespace-pre-wrap">
                           {edit ? (
-                            <SearchBar
-                              tags={tagsState}
-                              search={search}
-                              setSearch={setSearch}
-                              add={true}
-                              setTags={setTagsState}
-                            />
-                          ) : (
-                            currentSite?.tags?.map((i) => (
-                              <div key={i} className="tag mt-1">
-                                {i}
-                              </div>
-                            ))
-                          )}
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <h2 className={tableHeader}>URL:</h2>{" "}
-                      </td>
-                      <td>
-                        <a
-                          target="_blank"
-                          rel="noreferrer"
-                          className="hover:underline hover:text-blue-700"
-                          href={site.url}
-                        >
-                          <p className="break-all">{site.url}</p>
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <h2 className={tableHeader}>Repository:</h2>
-                      </td>
-                      <td>
-                        <a
-                          className="hover:underline hover:text-blue-700"
-                          href={site?.build_settings?.repo_url}
-                        >
-                          <p className="break-all">
-                            {site?.build_settings?.repo_url}
-                          </p>
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div className="flex items-center">
-                          <h2 className={tableHeader}>Env</h2>{" "}
-                          <div className="px-2 flex">
-                            <FontAwesomeIcon
-                              onClick={() => {
-                                setShowEnv(!showEnv);
+                            <textarea
+                              className="w-full border break-word p-1 rounded"
+                              onChange={(e) => {
+                                setDescription(e.target.value);
                               }}
-                              icon={showEnv ? faEyeSlash : faEye}
-                            />
+                              defaultValue={currentSite?.description}
+                            ></textarea>
+                          ) : (
+                            <p className="break-word whitespace-pre-wrap">
+                              {currentSite?.description}
+                            </p>
+                          )}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <h2 className={tableHeader}>Tags:</h2>
+                        </td>
+                        <td>
+                          <div className="flex w-full  flex-wrap">
+                            {edit ? (
+                              <SearchBar
+                                tags={tagsState}
+                                search={search}
+                                setSearch={setSearch}
+                                add={true}
+                                setTags={setTagsState}
+                              />
+                            ) : (
+                              currentSite?.tags?.map((i) => (
+                                <div key={i} className="tag mt-1">
+                                  {i}
+                                </div>
+                              ))
+                            )}
                           </div>
-                        </div>
-                      </td>
-                      <td>
-                        <pre
-                          className={`${preEnv} text-xs  p-1 whitespace-pre-wrap break-all`}
-                        >
-                          {JSON.stringify(site?.build_settings?.env, null, 4)}
-                        </pre>
-                      </td>
-                    </tr>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <h2 className={tableHeader}>URL:</h2>{" "}
+                        </td>
+                        <td>
+                          <a
+                            target="_blank"
+                            rel="noreferrer"
+                            className="hover:underline hover:text-blue-700"
+                            href={site.url}
+                          >
+                            <p className="break-all">{site.url}</p>
+                          </a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <h2 className={tableHeader}>Repository:</h2>
+                        </td>
+                        <td>
+                          <a
+                            className="hover:underline hover:text-blue-700"
+                            href={site?.build_settings?.repo_url}
+                          >
+                            <p className="break-all">
+                              {site?.build_settings?.repo_url}
+                            </p>
+                          </a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div className="flex items-center">
+                            <h2 className={tableHeader}>Env</h2>{" "}
+                            <div className="px-2 flex">
+                              <FontAwesomeIcon
+                                onClick={() => {
+                                  setShowEnv(!showEnv);
+                                }}
+                                icon={showEnv ? faEyeSlash : faEye}
+                              />
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <pre
+                            className={`${preEnv} text-xs  p-1 whitespace-pre-wrap break-all`}
+                          >
+                            {JSON.stringify(site?.build_settings?.env, null, 4)}
+                          </pre>
+                        </td>
+                      </tr>
+                    </tbody>
                   </table>
                   <div className="p-4">
                     {edit && (
