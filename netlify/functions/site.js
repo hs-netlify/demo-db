@@ -1,4 +1,5 @@
 import { connectToDatabase } from "../../utils";
+import fetch from "node-fetch";
 
 const fetchSite = async (db, siteId) => {
   try {
