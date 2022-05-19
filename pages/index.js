@@ -8,7 +8,7 @@ import SearchBar from "../components/SearchBar";
 import DemoDetail from "../components/DemoDetail";
 import Header from "../components/Header";
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const sites = await (
     await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/sites`)
   ).json();
